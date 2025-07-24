@@ -19,7 +19,7 @@ const convertToMegabytes = (size) =>
 const defaultTitle = (classTitle) => (
   <>
     <span className={classTitle}>Choose a File </span>
-    or Drag here to Detect Deepfake Videos
+    or Drag here to Detect Deepfake Videos and Image
   </>
 );
 
@@ -34,16 +34,21 @@ export default function UploadCard({
 }) {
   const [file, setFile] = useState(null);
 
+  const [preview, setPreview] = useState(null);
+
   const handleDrop = (files) => {
     handleReset();
+    const file = files[0];
 
     if (files.length > 0) {
       setFile(files);
+      setPreview(URL.createObjectURL(file));
     }
   };
 
   const handleReset = () => {
     setFile(null);
+    setPreview(null)
     onReset();
   };
 
@@ -89,7 +94,10 @@ export default function UploadCard({
           p={{ base: 13, lg: 20 }}
           mih={120}
           className={classes.DropzoneBorder}
-          accept={["video/mp4"]}
+          accept={{
+            "image/*": [],
+            "video/mp4": [],
+          }}
           maxSize={MAX_SIZE}
           maxFiles={MAX_FILES}
           multiple={false}
@@ -101,6 +109,23 @@ export default function UploadCard({
             },
           }}
         >
+          {preview && file && (
+            <div>
+              {file[0].type.startsWith("image/png") ? (
+                <img
+                  src={preview}
+                  alt="Preview"
+                  style={{ maxWidth: "100%", marginTop: 10 }}
+                />
+              ) : (
+                <video
+                  src={preview}
+                  controls
+                  style={{ maxWidth: "100%", borderRadius: 8 }}
+                />
+              )}
+            </div>
+          )}
           <UploadContent {...whichUploadContent()} />
         </Dropzone>
       </Stack>
