@@ -19,7 +19,7 @@ const convertToMegabytes = (size) =>
 const defaultTitle = (classTitle) => (
   <>
     <span className={classTitle}>Choose a File </span>
-    or Drag here to Detect Deepfake Videos and Image
+    or Drag here to Detect Deepfake Videos or Image
   </>
 );
 
@@ -62,7 +62,7 @@ export default function UploadCard({
     idle: {
       image: UploadIcon,
       title: defaultTitle(classes.TextHiglight),
-      subtitle: "Supported format: MP4, with a maximum size of 50MB",
+      subtitle: "Supported format: .jpeg, .jpg, .png, .MP4, with a maximum size of 50MB",
       color: "",
     },
     reject: {
